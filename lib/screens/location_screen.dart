@@ -74,3 +74,7 @@ class _LocationScreenState extends State<LocationScreen> {
     );
   }
 }
+//double temp = decodedData['main']['temp'];
+//String name = decodedData['name'];
+//print('temp');
+//print('name');
