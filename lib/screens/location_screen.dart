@@ -22,13 +22,19 @@ WeatherModel weather = WeatherModel();
   }
   void updateUI(dynamic weatherData){
 setState(() {
-
+if(weatherData = null){
+  temperature = 0;
+  weatherIcon = 'Error';
+  cityName = '';
+  message = 'Unable to get weather data';
+  return;
+}else{
   temperature = weatherData['main']['temp'];
   int condition = weatherData['weather'][0]['id'];
   weatherIcon = weather.getWeatherIcon(condition);
   cityName = weatherData['name'];
   message = weather.getMessage(temperature);
-});
+}});
   }
   @override
   Widget build(BuildContext context) {
@@ -52,7 +58,10 @@ setState(() {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () async{
+                      var weatherData = await weather.getLocationWeather();
+                      updateUI(weatherData);
+                    },
                     child: Icon(
                       Icons.near_me,
                       size: 50.0,
