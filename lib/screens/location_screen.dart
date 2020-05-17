@@ -1,3 +1,4 @@
+import 'package:clima/screens/city_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:clima/services/weather.dart';
@@ -22,7 +23,7 @@ WeatherModel weather = WeatherModel();
   }
   void updateUI(dynamic weatherData){
 setState(() {
-if(weatherData = null){
+if(weatherData == null){
   temperature = 0;
   weatherIcon = 'Error';
   cityName = '';
@@ -40,15 +41,15 @@ if(weatherData = null){
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('images/location_background.jpg'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Colors.white.withOpacity(0.8), BlendMode.dstATop),
-          ),
-        ),
-        constraints: BoxConstraints.expand(),
+//        decoration: BoxDecoration(
+//          image: DecorationImage(
+//            image: AssetImage('images/location_background.jpg'),
+//            fit: BoxFit.cover,
+//            colorFilter: ColorFilter.mode(
+//                Colors.white.withOpacity(0.8), BlendMode.dstATop),
+//          ),
+//        ),
+//        constraints: BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +69,20 @@ if(weatherData = null){
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () async{
+
+                        var typedName =await Navigator.push(context,
+                          MaterialPageRoute(builder: (context){
+                          return CityScreen();
+                        },
+
+                        ),
+                        );
+                        if(typedName != null){
+                         var weatherData= await weather.getCityWeather(typedName);
+                        updateUI(weatherData);
+                        }
+                    },
                     child: Icon(
                       Icons.location_city,
                       size: 50.0,
